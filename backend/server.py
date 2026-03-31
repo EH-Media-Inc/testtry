@@ -58,14 +58,15 @@ class HubSpotService:
         self.api_key = os.environ.get('HUBSPOT_API_KEY')
         if not self.api_key:
             logging.warning("HUBSPOT_API_KEY not found in environment variables")
+        # HubSpot private app access tokens use hapikey parameter
         self.headers = {
-            "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
+        self.api_key_param = f"?hapikey={self.api_key}" if self.api_key else ""
     
     async def create_contact(self, name: str, email: str, message: str) -> dict:
         """Create or update a contact in HubSpot"""
-        url = f"{self.BASE_URL}/crm/v3/objects/contacts"
+        url = f"{self.BASE_URL}/crm/v3/objects/contacts{self.api_key_param}"
         
         # Extract first and last name from full name
         name_parts = name.strip().split(maxsplit=1)
