@@ -130,11 +130,27 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-12"
+                className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8"
                 data-testid="hero-bio"
               >
                 Reminding everyone you have free will…do with that as you will.
               </motion.p>
+
+              {/* Quick CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                <Button
+                  onClick={() => document.getElementById('social-links')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold px-8 py-6 rounded-xl shadow-lg text-lg"
+                  data-testid="hero-follow-cta"
+                >
+                  Subscribe & Follow
+                </Button>
+              </motion.div>
             </motion.div>
           </div>
         </section>
