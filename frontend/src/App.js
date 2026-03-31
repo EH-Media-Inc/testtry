@@ -373,9 +373,12 @@ function App() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8" data-testid="social-links-title">
-                Connect With Me
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-4" data-testid="social-links-title">
+                Subscribe & Follow Me
               </h2>
+              <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+                Join thousands of followers for daily content, real vibes, and authentic moments. Hit that follow button on all platforms!
+              </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon;
