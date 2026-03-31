@@ -239,13 +239,21 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Hero Section with Subscribe & Follow Button"
+    - "About Me Section with Interest Cards"
+    - "Music Playlists Section"
+    - "Enhanced Social Links Section"
+    - "Contact Form Functionality"
+    - "Responsive Design and Glassmorphism"
   stuck_tasks: []
-  test_all: false
-  test_priority: "completed"
+  test_all: true
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
     message: "Starting comprehensive testing of social media link hub website. Will test all sections including hero, social links, feeds, contact form, responsive design, and visual elements. Testing URL: https://pixel-dev-quest-21.preview.emergentagent.com"
   - agent: "testing"
     message: "TESTING COMPLETED SUCCESSFULLY - All features working correctly. Updated HubSpot API key and verified contact form integration. Hero section, social media links, feeds, contact form, responsive design, and visual elements all pass testing. Website is fully functional and ready for use."
+  - agent: "testing"
+    message: "STARTING ENHANCED FEATURE TESTING - Testing new features including Subscribe & Follow button, About Me section with interest cards, Music Playlists section, enhanced social links, and overall design improvements. URL: https://pixel-dev-quest-21.preview.emergentagent.com"
