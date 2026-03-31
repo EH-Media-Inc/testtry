@@ -372,12 +372,20 @@ function App() {
                     <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                       <span className="text-2xl">🎸</span> Grunge
                     </h3>
-                    <div className="aspect-square w-full">
+                    <div className="w-full h-[450px] overflow-hidden rounded-xl relative">
                       <iframe
                         allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
                         frameBorder="0"
-                        height="450"
-                        style={{ width: '100%', maxWidth: '660px', overflow: 'hidden', borderRadius: '10px' }}
+                        height="600"
+                        style={{ 
+                          width: '100%', 
+                          maxWidth: '660px', 
+                          overflow: 'hidden', 
+                          borderRadius: '10px',
+                          position: 'absolute',
+                          top: '-70px',
+                          left: '0'
+                        }}
                         sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
                         src="https://embed.music.apple.com/us/playlist/grunge/pl.u-2aoq8DqiG24v5zB"
                       />
