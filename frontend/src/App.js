@@ -404,7 +404,7 @@ function App() {
                             <h3 className="text-xl font-semibold text-gray-900 group-hover:text-gray-700 transition-colors">
                               {social.name}
                             </h3>
-                            <p className="text-sm text-gray-500">Follow me</p>
+                            <p className="text-sm text-gray-500 font-medium">Click to Subscribe</p>
                           </div>
                           <svg
                             className="w-6 h-6 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all"
