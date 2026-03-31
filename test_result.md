@@ -102,16 +102,16 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the social media link hub website thoroughly with glassmorphism design for Samuel Ethan Hunt"
+user_problem_statement: "Test the enhanced social media hub with new features including Subscribe & Follow button, About Me section with interest cards, Music Playlists section, and enhanced social links"
 
 frontend:
-  - task: "Hero Section Display"
+  - task: "Hero Section with Subscribe & Follow Button"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "testing"
@@ -119,6 +119,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - Profile photo loads correctly from customer assets, name 'Samuel Ethan Hunt' displays properly, bio text shows 'Reminding everyone you have free will…do with that as you will.', animations working smoothly"
+      - working: "NA"
+        agent: "testing"
+        comment: "NEW FEATURE TESTING - Need to verify 'Subscribe & Follow' button appears and scrolls to social links section, check animations work"
 
   - task: "Social Media Links"
     implemented: true
