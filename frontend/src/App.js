@@ -139,8 +139,218 @@ function App() {
           </div>
         </section>
 
+        {/* About Me Section */}
+        <section className="py-12 sm:py-16 lg:py-20" data-testid="about-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-6" data-testid="about-title">
+                About Me
+              </h2>
+              
+              <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl p-8 rounded-2xl mb-8">
+                <div className="space-y-6 text-gray-700">
+                  <p className="text-lg leading-relaxed">
+                    Born in <span className="font-semibold text-gray-900">Jacksonville, Florida</span>, now calling <span className="font-semibold text-gray-900">Clayton, North Carolina</span> home. I'm just a dude navigating life, one authentic moment at a time.
+                  </p>
+                  
+                  <div className="grid sm:grid-cols-2 gap-6 my-8">
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <span className="text-2xl">🎵</span> Music Lover
+                      </h3>
+                      <p className="text-sm">From country roads to grunge vibes, my playlists tell my story. Music is my therapy, my escape, my energy.</p>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <span className="text-2xl">🌟</span> Authentic Living
+                      </h3>
+                      <p className="text-sm">No filters, no pretending. Just real life, real moments, and real connections with amazing people.</p>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <span className="text-2xl">🎬</span> Content Creator
+                      </h3>
+                      <p className="text-sm">Sharing my journey, my thoughts, and my vibe across social media. Join me for the ride!</p>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                        <span className="text-2xl">🌍</span> Free Spirit
+                      </h3>
+                      <p className="text-sm">Exploring life on my own terms. Adventure seeker, deep thinker, and believer in living your truth.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-6 rounded-xl border-2 border-purple-200">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">My Mission</h3>
+                    <p className="text-lg italic text-gray-800">
+                      "To show the world that you can be <span className="font-bold text-purple-700">authentically YOU</span> and still be accepted, no matter who you are. We're all just navigating this crazy journey called life together."
+                    </p>
+                  </div>
+                </div>
+              </Card>
+              
+              {/* CTA Box */}
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                <Card className="backdrop-blur-md bg-gradient-to-br from-purple-500/90 to-pink-500/90 border-white/30 shadow-2xl p-8 rounded-2xl text-center">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                    Join the Journey
+                  </h3>
+                  <p className="text-white/90 text-lg mb-6">
+                    Follow me on social media for daily vibes, real talk, and authentic content. Let's connect!
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-4">
+                    <Button
+                      onClick={() => document.getElementById('social-links')?.scrollIntoView({ behavior: 'smooth' })}
+                      className="bg-white text-purple-600 hover:bg-gray-100 font-bold px-8 py-6 rounded-xl shadow-lg text-lg"
+                      data-testid="cta-follow-button"
+                    >
+                      Follow Me Now
+                    </Button>
+                  </div>
+                </Card>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Music Playlists Section */}
+        <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-purple-50 to-pink-50" data-testid="music-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="text-center mb-12">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4" data-testid="music-title">
+                  My Playlists
+                </h2>
+                <p className="text-lg text-gray-600">
+                  Vibe with me. Listen while you browse and feel the energy.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6">
+                {/* Vibe Playlist */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  data-testid="playlist-vibe"
+                >
+                  <Card className="backdrop-blur-md bg-white/70 border-white/30 shadow-xl p-6 rounded-2xl h-full">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="text-2xl">🎵</span> Vibe
+                    </h3>
+                    <div className="aspect-square w-full">
+                      <iframe
+                        allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                        frameBorder="0"
+                        height="450"
+                        style={{ width: '100%', maxWidth: '660px', overflow: 'hidden', borderRadius: '10px' }}
+                        sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                        src="https://embed.music.apple.com/us/playlist/vibe/pl.u-jV890v9sDBrNkoY"
+                      />
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* Country Vibes Playlist */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  data-testid="playlist-country"
+                >
+                  <Card className="backdrop-blur-md bg-white/70 border-white/30 shadow-xl p-6 rounded-2xl h-full">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="text-2xl">🤠</span> Country Vibes
+                    </h3>
+                    <div className="aspect-square w-full">
+                      <iframe
+                        allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                        frameBorder="0"
+                        height="450"
+                        style={{ width: '100%', maxWidth: '660px', overflow: 'hidden', borderRadius: '10px' }}
+                        sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                        src="https://embed.music.apple.com/us/playlist/country-vibes/pl.u-2aoq8meSG24v5zB"
+                      />
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* Rainy Weather Playlist */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  data-testid="playlist-rainy"
+                >
+                  <Card className="backdrop-blur-md bg-white/70 border-white/30 shadow-xl p-6 rounded-2xl h-full">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="text-2xl">🌧️</span> Rainy Weather
+                    </h3>
+                    <div className="aspect-square w-full">
+                      <iframe
+                        allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                        frameBorder="0"
+                        height="450"
+                        style={{ width: '100%', maxWidth: '660px', overflow: 'hidden', borderRadius: '10px' }}
+                        sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                        src="https://embed.music.apple.com/us/playlist/rainy-weather/pl.u-8aAVXDVTvJB1G7R"
+                      />
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* Grunge Playlist */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  data-testid="playlist-grunge"
+                >
+                  <Card className="backdrop-blur-md bg-white/70 border-white/30 shadow-xl p-6 rounded-2xl h-full">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      <span className="text-2xl">🎸</span> Grunge
+                    </h3>
+                    <div className="aspect-square w-full">
+                      <iframe
+                        allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+                        frameBorder="0"
+                        height="450"
+                        style={{ width: '100%', maxWidth: '660px', overflow: 'hidden', borderRadius: '10px' }}
+                        sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+                        src="https://embed.music.apple.com/us/playlist/grunge/pl.u-2aoq8DqiG24v5zB"
+                      />
+                    </div>
+                  </Card>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Social Links Section */}
-        <section className="py-8 sm:py-12" data-testid="social-links-section">
+        <section id="social-links" className="py-8 sm:py-12" data-testid="social-links-section">
           <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-4xl">
             <motion.div
               initial={{ opacity: 0 }}
