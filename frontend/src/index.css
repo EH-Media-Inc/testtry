@@ -115,17 +115,3 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 92, 246, 0.7);
 }
-
-/* Hide Apple Music player footer and header elements */
-iframe[src*="music.apple.com"] {
-  margin-top: -50px !important;
-  margin-bottom: -80px !important;
-  height: 580px !important;
-  pointer-events: auto !important;
-}
-
-/* Container adjustments for music players */
-.aspect-square {
-  overflow: hidden !important;
-  max-height: 450px !important;
-}
