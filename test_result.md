@@ -182,11 +182,11 @@ frontend:
 
   - task: "Contact Form Functionality"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "testing"
@@ -194,14 +194,17 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - Form validation works (empty fields, invalid email, short message all trigger HTML5 validation), successful submission returns 200 status, form clears after submission, success toast 'Message sent! I'll get back to you soon. 🎉' appears correctly"
+      - working: "NA"
+        agent: "testing"
+        comment: "RE-TESTING - Need to verify contact form still works with HubSpot integration after enhancements"
 
-  - task: "Responsive Design"
+  - task: "Responsive Design and Glassmorphism"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "testing"
@@ -209,21 +212,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - Responsive design works perfectly on both mobile (390x844) and desktop (1920x1080) viewports, all sections visible and properly arranged, social links stack correctly on mobile"
-
-  - task: "Visual Design Elements"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/App.js"
-    stuck_count: 0
-    priority: "low"
-    needs_retesting: false
-    status_history:
       - working: "NA"
         agent: "testing"
-        comment: "Initial testing - need to verify glassmorphism effects, gradient background, animations, and footer display"
-      - working: true
-        agent: "testing"
-        comment: "✅ PASSED - Glassmorphism effects (backdrop-blur) working correctly, gradient background applied, smooth animations functioning, footer displays with correct copyright '© 2025 Samuel Ethan Hunt. All rights reserved.' and tagline"
+        comment: "RE-TESTING - Need to verify glassmorphism effects throughout, gradient backgrounds, smooth scrolling between sections on mobile (390x844) and desktop (1920x1080)"
 
 backend:
   - task: "Contact Form API"
