@@ -3,640 +3,421 @@ import { motion } from "framer-motion";
 import "@/App.css";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
-import { Progress } from "./components/ui/progress";
-import { Badge } from "./components/ui/badge";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./components/ui/dialog";
-import { Github, Linkedin, Twitter, Mail, Sparkles, Zap, Heart, Code, Rocket, Star } from "lucide-react";
+import { Facebook, Instagram, Send, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 
 function App() {
-  const [coins, setCoins] = useState(42);
-  const [selectedProject, setSelectedProject] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const skills = [
-    { name: "React & Frontend", level: 90, color: "--sky-blue", icon: "⚡" },
-    { name: "Node.js & Backend", level: 85, color: "--mint-green", icon: "🔋" },
-    { name: "UI/UX Design", level: 75, color: "--coin-gold", icon: "✨" },
-    { name: "Problem Solving", level: 95, color: "--heart-red", icon: "💪" }
-  ];
-
-  const projects = [
+  const socialLinks = [
     {
-      id: 1,
-      title: "Pixel Quest RPG",
-      description: "A retro-style RPG game built with React and Canvas API",
-      tags: ["React", "Canvas", "Game"],
-      coins: 15,
-      details: "Full-featured RPG with character progression, quests, and epic battles. Built with React hooks and HTML5 Canvas for smooth 60fps gameplay.",
-      link: "https://github.com"
+      name: "Facebook",
+      url: "https://www.facebook.com/share/17KxZHNkCV/?mibextid=wwXIfr",
+      icon: Facebook,
+      color: "#1877F2",
+      gradient: "from-blue-600 to-blue-400"
     },
     {
-      id: 2,
-      title: "AI Chat Bot",
-      description: "Smart chatbot powered by latest AI models",
-      tags: ["AI", "Node.js", "API"],
-      coins: 20,
-      details: "Intelligent conversational AI with context awareness, multi-language support, and real-time responses. Integrated with GPT-4 and custom training data.",
-      link: "https://github.com"
+      name: "Instagram",
+      url: "https://www.instagram.com/hunt.ethan99?igsh=MWlldjhscnQ1ZWdmMA%3D%3D&utm_source=qr",
+      icon: Instagram,
+      color: "#E4405F",
+      gradient: "from-purple-600 via-pink-600 to-orange-500"
     },
     {
-      id: 3,
-      title: "E-Commerce Platform",
-      description: "Full-stack shopping experience with payment integration",
-      tags: ["Full-Stack", "Stripe", "MongoDB"],
-      coins: 25,
-      details: "Complete e-commerce solution with product management, cart functionality, secure payments, and order tracking. Built with MERN stack.",
-      link: "https://github.com"
+      name: "Snapchat",
+      url: "https://www.snapchat.com/add/hunt.ethan99?share_id=DBx3CpPKQe6a92EEQVZ-LQ&locale=en_US",
+      icon: MessageCircle,
+      color: "#FFFC00",
+      gradient: "from-yellow-400 to-yellow-300"
     },
     {
-      id: 4,
-      title: "Weather Dashboard",
-      description: "Real-time weather data visualization",
-      tags: ["React", "API", "Charts"],
-      coins: 10,
-      details: "Beautiful weather dashboard with 7-day forecasts, interactive maps, and detailed metrics. Uses multiple weather APIs for accurate data.",
-      link: "https://github.com"
-    },
-    {
-      id: 5,
-      title: "Task Manager Pro",
-      description: "Collaborative project management tool",
-      tags: ["React", "WebSocket", "Firebase"],
-      coins: 18,
-      details: "Real-time task management with team collaboration, drag-and-drop boards, notifications, and progress tracking. Built with Firebase for real-time sync.",
-      link: "https://github.com"
-    },
-    {
-      id: 6,
-      title: "Portfolio Generator",
-      description: "Automated portfolio site builder",
-      tags: ["Next.js", "CMS", "Deploy"],
-      coins: 22,
-      details: "No-code portfolio builder with templates, drag-and-drop editor, and one-click deployment. Integrated with headless CMS for easy content management.",
-      link: "https://github.com"
+      name: "TikTok",
+      url: "https://www.tiktok.com/@hunt.ethan99?_r=1&_t=ZP-959Zjic1rVm",
+      icon: Send,
+      color: "#000000",
+      gradient: "from-gray-900 to-gray-700"
     }
   ];
 
-  const handleCoinCollect = () => {
-    setCoins(coins + 1);
-    toast.success("+1 Coin Collected!", {
-      duration: 2000,
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.success("Message sent! Thanks for reaching out! 🎮", {
-      duration: 3000,
-    });
-    setFormData({ name: '', email: '', message: '' });
-  };
+    setIsSubmitting(true);
 
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/contacts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      toast.success("Message sent! I'll get back to you soon. 🎉", {
+        duration: 3000,
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      toast.error("Oops! Something went wrong. Please try again.", {
+        duration: 3000,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--background))] font-body">
-      {/* Header */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 100 }}
-        className="sticky top-0 z-50 bg-white border-b-[3px] border-[color:hsl(var(--pixel-outline))] shadow-md"
-        data-testid="header"
-      >
-        <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.5 }}
-                className="w-10 h-10 bg-[hsl(var(--primary))] border-[3px] border-[color:hsl(var(--pixel-outline))] flex items-center justify-center"
-                data-testid="logo"
-              >
-                <Code className="w-6 h-6 text-white" />
-              </motion.div>
-              <span className="font-pixel text-lg font-bold" data-testid="logo-text">DEV</span>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
+        <div className="absolute top-40 right-10 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
+      </div>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-6" data-testid="desktop-nav">
-              <button
-                onClick={() => scrollToSection('about')}
-                className="font-press-start text-xs hover:text-[hsl(var(--primary))] transition-colors"
-                data-testid="nav-about"
-              >
-                ABOUT
-              </button>
-              <button
-                onClick={() => scrollToSection('skills')}
-                className="font-press-start text-xs hover:text-[hsl(var(--primary))] transition-colors"
-                data-testid="nav-skills"
-              >
-                SKILLS
-              </button>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="font-press-start text-xs hover:text-[hsl(var(--primary))] transition-colors"
-                data-testid="nav-projects"
-              >
-                PROJECTS
-              </button>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="font-press-start text-xs hover:text-[hsl(var(--primary))] transition-colors"
-                data-testid="nav-contact"
-              >
-                CONTACT
-              </button>
-            </nav>
-
-            {/* Coin Counter */}
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <section className="py-12 sm:py-16 lg:py-20" data-testid="hero-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-4xl">
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              onClick={handleCoinCollect}
-              className="flex items-center gap-2 px-3 py-2 bg-white border-[3px] rounded-none border-[color:hsl(var(--pixel-outline))] shadow-[4px_4px_0_0_hsl(var(--pixel-outline))] cursor-pointer hover-shake"
-              data-testid="coin-counter"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
             >
-              <div className="w-5 h-5 bg-[hsl(var(--coin-gold))] rounded-full border-2 border-[color:hsl(var(--pixel-outline))]" />
-              <span className="font-press-start text-xs">{coins}</span>
+              {/* Profile Photo */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", duration: 0.8, delay: 0.2 }}
+                className="mb-8 flex justify-center"
+                data-testid="profile-photo"
+              >
+                <div className="relative">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden border-4 border-white shadow-2xl backdrop-blur-sm bg-white/30">
+                    <img
+                      src="https://customer-assets.emergentagent.com/job_pixel-dev-quest-21/artifacts/pbhnb0v2_IMG_2365.jpeg"
+                      alt="Samuel Ethan Hunt"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                    <span className="text-white text-xl">✨</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Name */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4"
+                data-testid="hero-name"
+              >
+                Samuel Ethan Hunt
+              </motion.h1>
+
+              {/* Bio */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-12"
+                data-testid="hero-bio"
+              >
+                Reminding everyone you have free will…do with that as you will.
+              </motion.p>
             </motion.div>
           </div>
-        </div>
-      </motion.header>
+        </section>
 
-      {/* Hero Section */}
-      <section
-        id="about"
-        className="relative py-12 sm:py-16 lg:py-24 overflow-hidden"
-        data-testid="hero-section"
-      >
-        <div className="absolute inset-0 pixel-grid opacity-50" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(135deg, hsl(197 92% 96%) 0%, hsl(160 64% 96%) 55%, hsl(48 100% 96%) 100%)'
-          }}
-        />
-        <div className="relative mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Avatar */}
+        {/* Social Links Section */}
+        <section className="py-8 sm:py-12" data-testid="social-links-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-4xl">
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", duration: 0.8 }}
-              className="flex justify-center"
-              data-testid="hero-avatar"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
             >
-              <div className="relative">
-                <div className="w-64 h-64 bg-[hsl(var(--primary))] border-[4px] border-[color:hsl(var(--pixel-outline))] shadow-[8px_8px_0_0_hsl(var(--pixel-outline))] flex items-center justify-center animate-float">
-                  <Code className="w-32 h-32 text-white" />
-                </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8" data-testid="social-links-title">
+                Connect With Me
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                {socialLinks.map((social, index) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 + index * 0.1 }}
+                      whileHover={{ y: -4, scale: 1.02 }}
+                      className="group"
+                      data-testid={`social-link-${social.name.toLowerCase()}`}
+                    >
+                      <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 rounded-2xl">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${social.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                            <Icon className="w-7 h-7 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-xl font-semibold text-gray-900 group-hover:text-gray-700 transition-colors">
+                              {social.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">Follow me</p>
+                          </div>
+                          <svg
+                            className="w-6 h-6 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </Card>
+                    </motion.a>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Social Feeds Section */}
+        <section className="py-8 sm:py-12" data-testid="social-feeds-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8" data-testid="social-feeds-title">
+                Recent Posts
+              </h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Facebook Feed */}
                 <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute -top-4 -right-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  data-testid="facebook-feed"
                 >
-                  <Star className="w-12 h-12 text-[hsl(var(--coin-gold))] fill-[hsl(var(--coin-gold))]" />
+                  <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl p-6 rounded-2xl h-[500px] overflow-hidden">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <Facebook className="w-6 h-6 text-blue-600" />
+                      Facebook
+                    </h3>
+                    <div className="w-full h-[400px] overflow-auto">
+                      <iframe
+                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17KxZHNkCV%2F&tabs=timeline&width=340&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                        width="100%"
+                        height="400"
+                        style={{ border: 'none', overflow: 'hidden' }}
+                        scrolling="no"
+                        frameBorder="0"
+                        allowFullScreen={true}
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                      />
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* Instagram Feed */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  data-testid="instagram-feed"
+                >
+                  <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl p-6 rounded-2xl h-[500px] overflow-hidden">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <Instagram className="w-6 h-6 text-pink-600" />
+                      Instagram
+                    </h3>
+                    <div className="w-full h-[400px] flex items-center justify-center bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl">
+                      <a
+                        href="https://www.instagram.com/hunt.ethan99"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-center p-6"
+                      >
+                        <Instagram className="w-16 h-16 text-pink-600 mx-auto mb-4" />
+                        <p className="text-gray-700 font-medium">@hunt.ethan99</p>
+                        <p className="text-sm text-gray-500 mt-2">Click to view profile</p>
+                      </a>
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* TikTok Feed */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  data-testid="tiktok-feed"
+                >
+                  <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl p-6 rounded-2xl h-[500px] overflow-hidden">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <Send className="w-6 h-6 text-gray-900" />
+                      TikTok
+                    </h3>
+                    <div className="w-full h-[400px] flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl">
+                      <a
+                        href="https://www.tiktok.com/@hunt.ethan99"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-center p-6"
+                      >
+                        <Send className="w-16 h-16 text-gray-900 mx-auto mb-4" />
+                        <p className="text-gray-700 font-medium">@hunt.ethan99</p>
+                        <p className="text-sm text-gray-500 mt-2">Click to view profile</p>
+                      </a>
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* Snapchat Feed */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                  data-testid="snapchat-feed"
+                >
+                  <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl p-6 rounded-2xl h-[500px] overflow-hidden">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <MessageCircle className="w-6 h-6 text-yellow-500" />
+                      Snapchat
+                    </h3>
+                    <div className="w-full h-[400px] flex items-center justify-center bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl">
+                      <a
+                        href="https://www.snapchat.com/add/hunt.ethan99"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-center p-6"
+                      >
+                        <MessageCircle className="w-16 h-16 text-yellow-600 mx-auto mb-4" />
+                        <p className="text-gray-700 font-medium">hunt.ethan99</p>
+                        <p className="text-sm text-gray-500 mt-2">Click to add me</p>
+                      </a>
+                    </div>
+                  </Card>
                 </motion.div>
               </div>
             </motion.div>
-
-            {/* Hero Content */}
-            <div className="space-y-6" data-testid="hero-content">
-              <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <h1 className="font-pixel text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight" data-testid="hero-title">
-                  ALEX DEVSON
-                </h1>
-              </motion.div>
-              
-              <motion.div
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                <h2 className="font-press-start text-base sm:text-lg text-[hsl(var(--primary))] tracking-wide" data-testid="hero-subtitle">
-                  FULL-STACK DEVELOPER
-                </h2>
-              </motion.div>
-
-              <motion.p
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-base sm:text-base leading-relaxed text-[hsl(var(--muted-foreground))]"
-                data-testid="hero-description"
-              >
-                Building pixel-perfect web experiences and crushing code challenges like boss battles. 
-                Level 99 developer with max XP in React, Node.js, and creative problem solving.
-              </motion.p>
-
-              <motion.div
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="flex flex-wrap gap-4"
-                data-testid="hero-cta-container"
-              >
-                <Button
-                  onClick={() => scrollToSection('projects')}
-                  className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] shadow-[4px_4px_0_0_hsl(var(--pixel-outline))] active:shadow-[0_0_0_0_hsl(var(--pixel-outline))] active:translate-x-[4px] active:translate-y-[4px] bg-[hsl(var(--primary))] text-white hover:bg-[hsl(var(--sky-blue))] font-press-start text-xs px-6 py-6"
-                  data-testid="hero-primary-cta"
-                >
-                  <Rocket className="w-4 h-4 mr-2" />
-                  VIEW PROJECTS
-                </Button>
-                <Button
-                  onClick={() => scrollToSection('contact')}
-                  variant="outline"
-                  className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] shadow-[4px_4px_0_0_hsl(var(--pixel-outline))] active:shadow-[0_0_0_0_hsl(var(--pixel-outline))] active:translate-x-[4px] active:translate-y-[4px] bg-white text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] font-press-start text-xs px-6 py-6"
-                  data-testid="hero-secondary-cta"
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  HIRE ME
-                </Button>
-              </motion.div>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Skills Section */}
-      <section
-        id="skills"
-        className="py-12 sm:py-16 lg:py-24 bg-white"
-        data-testid="skills-section"
-      >
-        <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-pixel text-4xl sm:text-5xl font-bold mb-4" data-testid="skills-title">
-              PLAYER STATS
-            </h2>
-            <p className="text-base text-[hsl(var(--muted-foreground))]" data-testid="skills-subtitle">
-              Skills leveled up through countless side quests
-            </p>
-          </motion.div>
+        {/* Contact Section */}
+        <section className="py-12 sm:py-16 lg:py-20" data-testid="contact-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-4" data-testid="contact-title">
+                Get In Touch
+              </h2>
+              <p className="text-center text-gray-600 mb-8">Have a question or want to work together?</p>
 
-          <div className="grid sm:grid-cols-2 gap-6" data-testid="skills-grid">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                data-testid={`skill-item-${index}`}
-              >
-                <Card className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] bg-white shadow-[6px_6px_0_0_hsl(var(--pixel-outline))] hover:shadow-[8px_8px_0_0_hsl(var(--pixel-outline))] transition-shadow p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-pixel text-lg" data-testid={`skill-name-${index}`}>{skill.name}</h3>
-                    <span className="text-2xl">{skill.icon}</span>
+              <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl p-8 rounded-2xl">
+                <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Full Name
+                    </label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="John Doe"
+                      className="backdrop-blur-sm bg-white/50 border-white/30 focus:border-purple-400 focus:ring-purple-400 rounded-xl"
+                      required
+                      minLength={2}
+                      maxLength={100}
+                      disabled={isSubmitting}
+                      data-testid="contact-name-input"
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-press-start text-xs text-[hsl(var(--muted-foreground))]">LVL</span>
-                      <span className="font-press-start text-xs" data-testid={`skill-level-${index}`}>{skill.level}</span>
-                    </div>
-                    <div
-                      className="h-6 border-[3px] rounded-none border-[color:hsl(var(--pixel-outline))] bg-[hsl(var(--muted))] overflow-hidden"
-                      data-testid={`skill-stat-bar-${index}`}
-                    >
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
-                        className="h-full"
-                        style={{ backgroundColor: `hsl(var(${skill.color}))` }}
-                      />
-                    </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email Address
+                    </label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="john@example.com"
+                      className="backdrop-blur-sm bg-white/50 border-white/30 focus:border-purple-400 focus:ring-purple-400 rounded-xl"
+                      required
+                      disabled={isSubmitting}
+                      data-testid="contact-email-input"
+                    />
                   </div>
-                </Card>
-              </motion.div>
-            ))}
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Message
+                    </label>
+                    <Textarea
+                      id="message"
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Tell me what's on your mind..."
+                      className="backdrop-blur-sm bg-white/50 border-white/30 focus:border-purple-400 focus:ring-purple-400 min-h-[120px] rounded-xl"
+                      required
+                      minLength={10}
+                      maxLength={1000}
+                      disabled={isSubmitting}
+                      data-testid="contact-message-textarea"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    data-testid="contact-submit-button"
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </Card>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Projects Section */}
-      <section
-        id="projects"
-        className="py-12 sm:py-16 lg:py-24 bg-[hsl(var(--muted))/30]"
-        data-testid="projects-section"
-      >
-        <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-pixel text-4xl sm:text-5xl font-bold mb-4" data-testid="projects-title">
-              QUEST LOG
-            </h2>
-            <p className="text-base text-[hsl(var(--muted-foreground))]" data-testid="projects-subtitle">
-              Epic projects completed on the journey
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="projects-grid">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -4 }}
-                data-testid={`project-card-${index}`}
-              >
-                <Card
-                  className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] bg-white shadow-[6px_6px_0_0_hsl(var(--pixel-outline))] hover:shadow-[8px_8px_0_0_hsl(var(--pixel-outline))] transition-shadow cursor-pointer h-full"
-                  onClick={() => setSelectedProject(project)}
-                >
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <h3 className="font-pixel text-lg" data-testid={`project-title-${index}`}>{project.title}</h3>
-                      <div className="flex items-center gap-1 px-2 py-1 bg-[hsl(var(--coin-gold))] border-2 border-[color:hsl(var(--pixel-outline))]">
-                        <div className="w-3 h-3 bg-[hsl(var(--coin-gold))] rounded-full border border-[color:hsl(var(--pixel-outline))]" />
-                        <span className="font-press-start text-xs" data-testid={`project-coins-${index}`}>{project.coins}</span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-[hsl(var(--muted-foreground))]" data-testid={`project-description-${index}`}>
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, tagIndex) => (
-                        <Badge
-                          key={tag}
-                          className="rounded-none border-2 border-[color:hsl(var(--pixel-outline))] bg-[hsl(var(--muted))] text-[hsl(var(--foreground))] hover:bg-[hsl(var(--primary))] hover:text-white font-press-start text-xs px-2 py-1"
-                          data-testid={`project-tag-${index}-${tagIndex}`}
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="py-12 sm:py-16 lg:py-24 bg-white"
-        data-testid="contact-section"
-      >
-        <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-3xl">
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-pixel text-4xl sm:text-5xl font-bold mb-4" data-testid="contact-title">
-              START A QUEST
-            </h2>
-            <p className="text-base text-[hsl(var(--muted-foreground))]" data-testid="contact-subtitle">
-              Let's team up and build something legendary
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <Card className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] bg-white shadow-[6px_6px_0_0_hsl(var(--pixel-outline))] p-8">
-              <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form">
-                <div>
-                  <label className="font-press-start text-xs block mb-2" htmlFor="name">
-                    NAME
-                  </label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Enter your name"
-                    className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] focus:ring-2 focus:ring-[hsl(var(--primary))] font-body"
-                    required
-                    data-testid="contact-name-input"
-                  />
-                </div>
-                <div>
-                  <label className="font-press-start text-xs block mb-2" htmlFor="email">
-                    EMAIL
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="your@email.com"
-                    className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] focus:ring-2 focus:ring-[hsl(var(--primary))] font-body"
-                    required
-                    data-testid="contact-email-input"
-                  />
-                </div>
-                <div>
-                  <label className="font-press-start text-xs block mb-2" htmlFor="message">
-                    MESSAGE
-                  </label>
-                  <Textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell me about your project..."
-                    className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] focus:ring-2 focus:ring-[hsl(var(--primary))] min-h-[120px] font-body"
-                    required
-                    data-testid="contact-message-textarea"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] shadow-[4px_4px_0_0_hsl(var(--pixel-outline))] active:shadow-[0_0_0_0_hsl(var(--pixel-outline))] active:translate-x-[4px] active:translate-y-[4px] bg-[hsl(var(--primary))] text-white hover:bg-[hsl(var(--sky-blue))] font-press-start text-xs py-6"
-                  data-testid="contact-submit-button"
-                >
-                  <Zap className="w-4 h-4 mr-2" />
-                  SEND MESSAGE
-                </Button>
-              </form>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer
-        className="bg-[hsl(var(--pixel-outline))] text-white py-12"
-        data-testid="footer"
-      >
-        <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            {/* About */}
-            <div data-testid="footer-about">
-              <h3 className="font-pixel text-xl mb-4">ALEX DEVSON</h3>
-              <p className="text-sm text-gray-300">
-                Full-stack developer crafting pixel-perfect experiences. Always ready for the next challenge.
+        {/* Footer */}
+        <footer className="py-8 backdrop-blur-md bg-white/40 border-t border-white/20" data-testid="footer">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
+            <div className="text-center">
+              <p className="text-gray-600 text-sm">
+                © 2025 Samuel Ethan Hunt. All rights reserved.
+              </p>
+              <p className="text-gray-500 text-xs mt-2">
+                Built with passion and purpose
               </p>
             </div>
-
-            {/* Quick Links */}
-            <div data-testid="footer-links">
-              <h3 className="font-pixel text-xl mb-4">QUICK LINKS</h3>
-              <div className="space-y-2">
-                <button
-                  onClick={() => scrollToSection('about')}
-                  className="block text-sm text-gray-300 hover:text-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-link-about"
-                >
-                  About
-                </button>
-                <button
-                  onClick={() => scrollToSection('skills')}
-                  className="block text-sm text-gray-300 hover:text-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-link-skills"
-                >
-                  Skills
-                </button>
-                <button
-                  onClick={() => scrollToSection('projects')}
-                  className="block text-sm text-gray-300 hover:text-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-link-projects"
-                >
-                  Projects
-                </button>
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="block text-sm text-gray-300 hover:text-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-link-contact"
-                >
-                  Contact
-                </button>
-              </div>
-            </div>
-
-            {/* Social */}
-            <div data-testid="footer-social">
-              <h3 className="font-pixel text-xl mb-4">CONNECT</h3>
-              <div className="flex gap-4">
-                <motion.a
-                  whileHover={{ y: -4 }}
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-white border-[3px] border-white flex items-center justify-center hover:bg-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-social-github"
-                >
-                  <Github className="w-6 h-6 text-[hsl(var(--pixel-outline))]" />
-                </motion.a>
-                <motion.a
-                  whileHover={{ y: -4 }}
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-white border-[3px] border-white flex items-center justify-center hover:bg-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-social-linkedin"
-                >
-                  <Linkedin className="w-6 h-6 text-[hsl(var(--pixel-outline))]" />
-                </motion.a>
-                <motion.a
-                  whileHover={{ y: -4 }}
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-white border-[3px] border-white flex items-center justify-center hover:bg-[hsl(var(--coin-gold))] transition-colors"
-                  data-testid="footer-social-twitter"
-                >
-                  <Twitter className="w-6 h-6 text-[hsl(var(--pixel-outline))]" />
-                </motion.a>
-              </div>
-            </div>
           </div>
-
-          <div className="border-t-[3px] border-white/20 pt-8 text-center">
-            <p className="font-press-start text-xs text-gray-300" data-testid="footer-copyright">
-              © 2025 ALEX DEVSON. BUILT WITH <Heart className="inline w-3 h-3 text-[hsl(var(--heart-red))] fill-[hsl(var(--heart-red))]" /> & REACT
-            </p>
-          </div>
-        </div>
-      </footer>
-
-      {/* Project Dialog */}
-      <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] shadow-[8px_8px_0_0_hsl(var(--pixel-outline))] max-w-2xl" data-testid="project-dialog">
-          {selectedProject && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="font-pixel text-2xl" data-testid="project-dialog-title">
-                  {selectedProject.title}
-                </DialogTitle>
-                <DialogDescription className="text-base" data-testid="project-dialog-description">
-                  {selectedProject.details}
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      className="rounded-none border-2 border-[color:hsl(var(--pixel-outline))] bg-[hsl(var(--primary))] text-white font-press-start text-xs px-3 py-1"
-                      data-testid="project-dialog-tag"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 px-3 py-2 bg-[hsl(var(--coin-gold))] border-2 border-[color:hsl(var(--pixel-outline))]">
-                    <div className="w-4 h-4 bg-[hsl(var(--coin-gold))] rounded-full border-2 border-[color:hsl(var(--pixel-outline))]" />
-                    <span className="font-press-start text-xs">{selectedProject.coins} COINS EARNED</span>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <Button
-                    asChild
-                    className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] shadow-[4px_4px_0_0_hsl(var(--pixel-outline))] bg-[hsl(var(--primary))] text-white hover:bg-[hsl(var(--sky-blue))] font-press-start text-xs"
-                    data-testid="project-dialog-github-btn"
-                  >
-                    <a href={selectedProject.link} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-4 h-4 mr-2" />
-                      VIEW CODE
-                    </a>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="rounded-none border-[3px] border-[color:hsl(var(--pixel-outline))] shadow-[4px_4px_0_0_hsl(var(--pixel-outline))] font-press-start text-xs"
-                    data-testid="project-dialog-demo-btn"
-                  >
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      LIVE DEMO
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+        </footer>
+      </div>
     </div>
   );
 }
