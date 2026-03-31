@@ -115,3 +115,9 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 92, 246, 0.7);
 }
+
+/* Hide Apple Music player footer (names and sign-in) */
+iframe[src*="music.apple.com"] {
+  margin-bottom: -60px !important;
+  height: 510px !important;
+}
