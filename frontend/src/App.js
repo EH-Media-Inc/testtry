@@ -424,7 +424,146 @@ function App() {
           </div>
         </section>
 
-        {/* Social Feeds Section - REMOVED */}
+        {/* Social Feeds Section */}
+        <section className="py-8 sm:py-12" data-testid="social-feeds-section">
+          <div className="mx-auto px-4 sm:px-6 lg:px-10 max-w-6xl">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8" data-testid="social-feeds-title">
+                Recent Posts
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Facebook */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  data-testid="facebook-feed"
+                >
+                  <a
+                    href="https://www.facebook.com/share/17KxZHNkCV/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group"
+                  >
+                    <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 rounded-2xl h-full">
+                      <div className="flex flex-col items-center text-center space-y-4">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Facebook className="w-10 h-10 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-900">Facebook</h3>
+                          <p className="text-sm text-gray-600 mt-2">Check out my latest posts</p>
+                        </div>
+                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                          View Posts
+                        </Button>
+                      </div>
+                    </Card>
+                  </a>
+                </motion.div>
+
+                {/* Instagram */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  data-testid="instagram-feed"
+                >
+                  <a
+                    href="https://www.instagram.com/hunt.ethan99"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group"
+                  >
+                    <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 rounded-2xl h-full">
+                      <div className="flex flex-col items-center text-center space-y-4">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Instagram className="w-10 h-10 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-900">Instagram</h3>
+                          <p className="text-sm text-gray-600 mt-2">@hunt.ethan99</p>
+                        </div>
+                        <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+                          View Posts
+                        </Button>
+                      </div>
+                    </Card>
+                  </a>
+                </motion.div>
+
+                {/* TikTok */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  data-testid="tiktok-feed"
+                >
+                  <a
+                    href="https://www.tiktok.com/@hunt.ethan99"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group"
+                  >
+                    <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 rounded-2xl h-full">
+                      <div className="flex flex-col items-center text-center space-y-4">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-900 to-gray-700 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <Send className="w-10 h-10 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-900">TikTok</h3>
+                          <p className="text-sm text-gray-600 mt-2">@hunt.ethan99</p>
+                        </div>
+                        <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white">
+                          View Videos
+                        </Button>
+                      </div>
+                    </Card>
+                  </a>
+                </motion.div>
+
+                {/* Snapchat */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  data-testid="snapchat-feed"
+                >
+                  <a
+                    href="https://www.snapchat.com/add/hunt.ethan99"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group"
+                  >
+                    <Card className="backdrop-blur-md bg-white/60 border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 rounded-2xl h-full">
+                      <div className="flex flex-col items-center text-center space-y-4">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-300 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <MessageCircle className="w-10 h-10 text-gray-900" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-gray-900">Snapchat</h3>
+                          <p className="text-sm text-gray-600 mt-2">hunt.ethan99</p>
+                        </div>
+                        <Button className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900">
+                          View Snaps
+                        </Button>
+                      </div>
+                    </Card>
+                  </a>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
         {/* Contact Section */}
         <section className="py-12 sm:py-16 lg:py-20" data-testid="contact-section">
