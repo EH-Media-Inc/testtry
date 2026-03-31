@@ -284,7 +284,7 @@ function App() {
                           overflow: 'hidden', 
                           borderRadius: '10px',
                           position: 'absolute',
-                          top: '-70px',
+                          top: '-100px',
                           left: '0'
                         }}
                         sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
@@ -317,7 +317,7 @@ function App() {
                           overflow: 'hidden', 
                           borderRadius: '10px',
                           position: 'absolute',
-                          top: '-70px',
+                          top: '-100px',
                           left: '0'
                         }}
                         sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
@@ -350,7 +350,7 @@ function App() {
                           overflow: 'hidden', 
                           borderRadius: '10px',
                           position: 'absolute',
-                          top: '-70px',
+                          top: '-100px',
                           left: '0'
                         }}
                         sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
@@ -383,7 +383,7 @@ function App() {
                           overflow: 'hidden', 
                           borderRadius: '10px',
                           position: 'absolute',
-                          top: '-70px',
+                          top: '-100px',
                           left: '0'
                         }}
                         sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
