@@ -58,15 +58,15 @@ class HubSpotService:
         self.api_key = os.environ.get('HUBSPOT_API_KEY')
         if not self.api_key:
             logging.warning("HUBSPOT_API_KEY not found in environment variables")
-        # HubSpot private app access tokens use hapikey parameter
+        # HubSpot private app access tokens use Bearer authentication
         self.headers = {
+            "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
-        self.api_key_param = f"?hapikey={self.api_key}" if self.api_key else ""
     
     async def create_contact(self, name: str, email: str, message: str) -> dict:
         """Create or update a contact in HubSpot"""
-        url = f"{self.BASE_URL}/crm/v3/objects/contacts{self.api_key_param}"
+        url = f"{self.BASE_URL}/crm/v3/objects/contacts"
         
         # Extract first and last name from full name
         name_parts = name.strip().split(maxsplit=1)
@@ -94,7 +94,9 @@ class HubSpotService:
                     
                     if response.status not in [200, 201]:
                         error_message = data.get("message", "Unknown error")
-                        logging.error(f"HubSpot API error: {error_message}")
+                        error_details = data.get("errors", [])
+                        logging.error(f"HubSpot API error (status {response.status}): {error_message}")
+                        logging.error(f"Error details: {error_details}")
                         raise Exception(f"HubSpot API error: {error_message}")
                     
                     return {
@@ -102,6 +104,9 @@ class HubSpotService:
                         "hubspot_contact_id": data.get("id"),
                         "data": data
                     }
+        except aiohttp.ClientError as e:
+            logging.error(f"Network error connecting to HubSpot: {str(e)}")
+            raise Exception(f"Network error: {str(e)}")
         except Exception as e:
             logging.error(f"Failed to create HubSpot contact: {str(e)}")
             raise Exception(f"Failed to create HubSpot contact: {str(e)}")
